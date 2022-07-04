@@ -5,7 +5,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>model</module>
-        <module>model</module>
+        <module>service</module>
+        <module>common</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -140,14 +141,7 @@
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons-lang.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.atguigu</groupId>
-                <artifactId>model</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-            </dependency>
         </dependencies>
-
-
     </dependencyManagement>
 
     <build>
