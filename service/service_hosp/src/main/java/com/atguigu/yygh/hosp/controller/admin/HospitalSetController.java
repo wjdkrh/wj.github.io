@@ -1,7 +1,9 @@
 package com.atguigu.yygh.hosp.controller.admin;
 
 
+import com.atguigu.yygh.common.exception.YyghException;
 import com.atguigu.yygh.common.result.R;
+import com.atguigu.yygh.common.result.ResultCode;
 import com.atguigu.yygh.hosp.service.HospitalSetService;
 import com.atguigu.yygh.hosp.utils.MD5;
 import com.atguigu.yygh.model.hosp.HospitalSet;
@@ -31,6 +33,20 @@ public class HospitalSetController {
     @Autowired
     HospitalSetService hospitalSetService;
 
+
+
+    @ApiOperation(value = "医院设置列表")
+    @GetMapping("findAll")
+    public R findAll() {
+        try{
+           /* System.out.println(1 / 0);*/
+            List<HospitalSet> list = hospitalSetService.list();
+            return R.ok().data("list",list);
+        }catch (Exception e){
+            throw new YyghException("查询异常", ResultCode.ERROR_SELECT,e);
+        }
+
+    }
 
     @ApiOperation(value = "分页医院设置列表")
     @GetMapping("{page}/{limit}")
@@ -85,6 +101,18 @@ public class HospitalSetController {
 
         }else {
             return R.error().message("修改失败");
+        }
+    }
+    @ApiOperation(value = "根据ID查询医院设置")
+    @GetMapping("getHospitalSet/{id}")
+    public R select(
+            @ApiParam(value = "医院设置ID")
+            @PathVariable Long id){
+        HospitalSet hospitalSet = hospitalSetService.getById(id);
+        if (hospitalSet!=null){
+            return R.ok().data("hospitalSet",hospitalSet);
+        }else {
+            return R.error().message("查询失败");
         }
     }
     @ApiOperation(value = "批量删除医院设置")

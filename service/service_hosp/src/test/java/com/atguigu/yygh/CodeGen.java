@@ -27,6 +27,7 @@ public class CodeGen {
         gc.setServiceName("%sService");	//去掉Service接口的首字母I
         gc.setAuthor("atguigu");
         gc.setOpen(false);
+        //gc.setSwagger2(true); 数据库列注释  	@ApiModelProperty(value = "医院编号", example = "10000")
         mpg.setGlobalConfig(gc);
 
         // 3、数据源配置

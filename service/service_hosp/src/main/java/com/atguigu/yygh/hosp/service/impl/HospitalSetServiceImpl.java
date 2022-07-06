@@ -29,6 +29,7 @@ public class HospitalSetServiceImpl extends ServiceImpl<HospitalSetMapper, Hospi
         if (hospitalSetQueryVo==null){
             baseMapper.selectPage(hospitalSetPage,null);
 
+
         }else {
             String hosname = hospitalSetQueryVo.getHosname();
             hospitalSetQueryWrapper.like(!StringUtils.isEmpty(hosname),"hosname",hosname);
