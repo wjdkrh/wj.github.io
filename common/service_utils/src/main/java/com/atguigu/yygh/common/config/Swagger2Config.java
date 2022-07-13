@@ -22,7 +22,7 @@ public class Swagger2Config {
                 .groupName("adminApi")
                 .apiInfo(adminApiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.atguigu.yygh.hosp.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.atguigu.yygh"))
                 //只显示admin路径下的页面
                 .paths(PathSelectors.any())
                 .build();

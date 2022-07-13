@@ -11,4 +11,6 @@ public interface ResultCode {
     Integer ERROR_STATUS=20004;
     Integer ERROR_UPDATE=20005;
     Integer ERROR_ADD=20006;
+    Integer ERROR_IMPORT=2007;
+    Integer ERROR_EXPORT=2008;
 }
