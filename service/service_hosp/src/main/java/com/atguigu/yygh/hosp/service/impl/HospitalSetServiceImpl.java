@@ -1,6 +1,8 @@
 package com.atguigu.yygh.hosp.service.impl;
 
 
+import com.atguigu.yygh.common.exception.YyghException;
+import com.atguigu.yygh.common.result.ResultCode;
 import com.atguigu.yygh.hosp.mapper.HospitalSetMapper;
 import com.atguigu.yygh.hosp.service.HospitalSetService;
 import com.atguigu.yygh.model.hosp.HospitalSet;
@@ -37,5 +39,17 @@ public class HospitalSetServiceImpl extends ServiceImpl<HospitalSetMapper, Hospi
         }
         return hospitalSetPage;
 
+    }
+
+    @Override
+    public String getSignKey(String hoscode) {
+        QueryWrapper<HospitalSet> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("hoscode",hoscode);
+        HospitalSet hospitalSet = baseMapper.selectOne(queryWrapper);
+        if (hospitalSet==null){
+            throw new YyghException("医院信息错误", ResultCode.ERROR);
+        }
+
+        return hospitalSet.getSignKey();
     }
 }

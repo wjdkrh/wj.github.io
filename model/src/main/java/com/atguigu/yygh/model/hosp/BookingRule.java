@@ -46,6 +46,7 @@ public class BookingRule {
 	public void setRule(String rule) {
 		if(!StringUtils.isEmpty(rule)) {
 			this.rule = JSONArray.parseArray(rule, String.class);
+
 		}
 	}
 
