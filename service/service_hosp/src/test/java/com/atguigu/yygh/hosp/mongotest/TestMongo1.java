@@ -1,5 +1,8 @@
 package com.atguigu.yygh.hosp.mongotest;
 
+import com.atguigu.yygh.model.hosp.Schedule;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,6 +24,8 @@ public class TestMongo1 {
     @Autowired
     private MongoTemplate mongoTemplate;
     //查询所有
+    @Autowired
+    ScheduleMapper scheduleMapper;
     @Test
     public void findUser() {
         List<User> list = mongoTemplate.findAll(User.class);
@@ -42,5 +47,7 @@ public class TestMongo1 {
         List<User> userList = mongoTemplate.find(query, User.class);
         System.out.println(userList);
     }
+
+
 
 }

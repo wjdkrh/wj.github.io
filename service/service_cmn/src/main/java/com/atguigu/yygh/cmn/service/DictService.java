@@ -29,4 +29,10 @@ public interface DictService extends IService<Dict> {
     Dict getDictWithCacheManager(Long id);
 
     void deleteDictWithCacheManager(Long id);
+
+    String getName(String parentDictCode, String value);
+
+    List<Dict> findByParentDictCode(String parentDictCode);
+
+    List<Dict> findChildDataByParentId(Long id);
 }

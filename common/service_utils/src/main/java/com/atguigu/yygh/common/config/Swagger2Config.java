@@ -57,4 +57,62 @@ public class Swagger2Config {
                 .contact(new Contact("atguigu", "http://atguigu.com", "123@qq.com"))
                 .build();
     }
+    @Bean
+    public Docket frontApiConfig(){
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("frontApi")
+                .apiInfo(frontApiInfo())
+                .select()
+                //只显示api路径下的页面
+                .paths(Predicates.and(PathSelectors.regex("/front/.*")))
+                .build();
+    }
+
+    private ApiInfo frontApiInfo(){
+        return new ApiInfoBuilder()
+                .title("前端页面-API文档")
+                .description("本文档描述了前端页面展示服务接口定义")
+                .version("1.0")
+                .contact(new Contact("atguigu", "http://atguigu.com", "123@qq.com"))
+                .build();
+    }
+
+    @Bean
+    public Docket QRCApiConfig(){
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("QRCApi")
+                .apiInfo(QRCApiInfo())
+                .select()
+                //只显示api路径下的页面
+                .paths(Predicates.and(PathSelectors.regex("/api/.*")))
+                .build();
+    }
+
+    private ApiInfo QRCApiInfo(){
+        return new ApiInfoBuilder()
+                .title("微信扫码登录功能")
+                .description("微信扫码登录")
+                .version("1.0")
+                .contact(new Contact("atguigu", "http://atguigu.com", "123@qq.com"))
+                .build();
+    }
+    @Bean
+    public Docket OssApiConfig(){
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("OssApi")
+                .apiInfo(OssApiInfo())
+                .select()
+                //只显示api路径下的页面
+                .apis(RequestHandlerSelectors.basePackage("com.atguigu.yygh.oss"))
+                .build();
+    }
+
+    private ApiInfo OssApiInfo(){
+        return new ApiInfoBuilder()
+                .title("阿里云文件上传")
+                .description("文件上传")
+                .version("1.0")
+                .contact(new Contact("atguigu", "http://atguigu.com", "123@qq.com"))
+                .build();
+    }
 }

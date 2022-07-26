@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Api(tags = "登录接口")
 @RestController
-@RequestMapping("/admin/hosp")
-@CrossOrigin  //跨域
+@RequestMapping("/admin/hosp") //跨域
 public class UserLoginController {
 
     //http://localhost:9528/dev-api/vue-admin-template/user/login

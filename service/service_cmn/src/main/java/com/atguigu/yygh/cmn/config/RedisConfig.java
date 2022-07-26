@@ -1,4 +1,4 @@
-package com.atguigu.yygh.cmn.comfig;
+package com.atguigu.yygh.cmn.config;
 
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;

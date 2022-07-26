@@ -7,6 +7,8 @@
         <module>model</module>
         <module>service</module>
         <module>common</module>
+        <module>service_client</module>
+        <module>service_gateway</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -141,7 +143,9 @@
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons-lang.version}</version>
             </dependency>
+
         </dependencies>
+
     </dependencyManagement>
 
     <build>

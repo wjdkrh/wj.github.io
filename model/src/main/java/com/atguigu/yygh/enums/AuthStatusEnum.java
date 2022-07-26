@@ -1,6 +1,6 @@
 package com.atguigu.yygh.enums;
 
-public enum AuthStatusEnum {
+public enum AuthStatusEnum  {
 
     NO_AUTH(0, "未认证"),
     AUTH_RUN(1, "认证中"),

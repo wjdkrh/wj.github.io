@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -17,7 +18,7 @@ public class DepartmentVo {
 	private String depname;
 
 	@ApiModelProperty(value = "下级节点")
-	private List<DepartmentVo> children;
+	private List<DepartmentVo> children ;
 
 }
 

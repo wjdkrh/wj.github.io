@@ -12,6 +12,7 @@ import com.atguigu.yygh.vo.cmn.DictEeVo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -122,6 +123,43 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
     @CacheEvict(value = "dictTest",key="#id")
     public void deleteDictWithCacheManager(Long id) {
         baseMapper.deleteById(id);
+    }
+
+    @Override
+    public String getName(String parentDictCode, String value) {
+        QueryWrapper<Dict> queryWrapper = new QueryWrapper<>();
+       /* queryWrapper.eq(!StringUtils.isEmpty(parentDictCode),"parent_id",baseMapper.selectOne(new QueryWrapper<Dict>()
+                .eq("dict_code", parentDictCode)).getId()).eq("value",value);*/
+        if (!StringUtils.isEmpty(parentDictCode)) {
+            queryWrapper.eq("parent_id", baseMapper.selectOne(new QueryWrapper<Dict>()
+                    .eq("dict_code", parentDictCode)).getId());
+        }
+        queryWrapper.eq("value",value);
+        Dict dict = baseMapper.selectOne(queryWrapper);
+                return dict.getName();
+    }
+
+    @Override
+    public List<Dict> findByParentDictCode(String parentDictCode) {
+        Dict parentDict = baseMapper.selectOne(new QueryWrapper<Dict>().eq("dict_code", parentDictCode));
+            if (parentDict==null){
+                throw new YyghException("数据查询失败：ListDict",ResultCode.ERROR);
+            }
+            List<Dict> dictList = baseMapper.selectList(new QueryWrapper<Dict>().eq("parent_id", parentDict.getId()));
+            dictList.forEach(dict -> dict.setHasChildren(this.hasChildren(dict.getId())));
+            return dictList;
+
+
+    }
+
+    @Override
+    public List<Dict> findChildDataByParentId(Long id) {
+        QueryWrapper<Dict> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("parent_id",id);
+        List<Dict> dictList = baseMapper.selectList(queryWrapper);
+        dictList.forEach(dict -> dict.setHasChildren(this.hasChildren(dict.getId())));
+
+        return dictList;
     }
   /*  @CachePut
     使用该注解的方法，每次都会执行，并将结果存在指定的缓存中，其他方法可以直接从响应的缓存中读取数据，而不需要再去查询数据，一般用在新增方法上。
