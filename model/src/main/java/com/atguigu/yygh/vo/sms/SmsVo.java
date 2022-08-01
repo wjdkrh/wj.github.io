@@ -8,7 +8,7 @@ import java.util.Map;
 
 @Data
 @ApiModel(description = "短信实体")
-public class SmsVo {
+public class  SmsVo {
 
     @ApiModelProperty(value = "phone")
     private String phone;

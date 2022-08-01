@@ -16,5 +16,6 @@ public class OrderMqVo {
 
 	@ApiModelProperty(value = "排班id")
 	private String scheduleId;
+
 }
 

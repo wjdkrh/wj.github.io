@@ -6,6 +6,7 @@ import com.atguigu.yygh.enums.DictEnum;
 import com.atguigu.yygh.hosp.repository.HospitalRepository;
 import com.atguigu.yygh.hosp.service.HospitalService;
 import com.atguigu.yygh.model.hosp.Hospital;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -121,4 +122,5 @@ public class HospitalServiceImpl implements HospitalService {
           return hospital;
 
       }
+
 }

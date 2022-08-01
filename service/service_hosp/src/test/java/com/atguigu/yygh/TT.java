@@ -1,5 +1,6 @@
 package com.atguigu.yygh;
 
+import com.atguigu.yygh.enums.DictEnum;
 import org.joda.time.DateTime;
 import org.junit.jupiter.api.Test;
 
@@ -20,16 +21,13 @@ public class TT {
     @Test
     public void Test1() {
 
-        DateTime curentTime = new DateTime();
-        ArrayList<Date> dateArrayList = new ArrayList<>();
-        for (int i = 0; i <5 ; i++) {
-
-            DateTime dateTime = curentTime.plusDays(i);
-            String dataStr = dateTime.toString("yyyy-MM-dd");
-            dateArrayList.add(new DateTime(dataStr).toDate());
-        }
-        System.out.println(dateArrayList);
-
+        String dictCode = DictEnum.CERTIFICATES_TYPE.getDictCode();
+        System.out.println(dictCode);
+        System.out.println(dictCode);
+        System.out.println(dictCode);
+        System.out.println(dictCode);
+        System.out.println(dictCode);
+        System.out.println(dictCode);
 
     }
 

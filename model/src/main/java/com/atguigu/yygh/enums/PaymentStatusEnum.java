@@ -2,8 +2,10 @@ package com.atguigu.yygh.enums;
 
 public enum PaymentStatusEnum {
     UNPAID(1,"支付中"),
-    PAID(2,"已支付");
-    //REFUND(-1,"已退款");
+    PAID(2,"已支付"),
+    REFUND(-1,"已退款"),
+    CANCLE(-2,"已取消")
+    ;
 
     private Integer status ;
 

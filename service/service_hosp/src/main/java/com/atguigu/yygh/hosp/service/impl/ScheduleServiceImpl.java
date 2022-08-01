@@ -11,10 +11,13 @@ import com.atguigu.yygh.model.hosp.Department;
 import com.atguigu.yygh.model.hosp.Hospital;
 import com.atguigu.yygh.model.hosp.Schedule;
 import com.atguigu.yygh.vo.hosp.BookingScheduleRuleVo;
+import com.atguigu.yygh.vo.hosp.ScheduleOrderVo;
+import com.atguigu.yygh.vo.order.OrderMqVo;
 import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeUtils;
 import org.joda.time.format.DateTimeFormat;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -24,6 +27,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -143,7 +147,6 @@ public class ScheduleServiceImpl implements ScheduleService {
             dateArrayList.add(new DateTime(dateStr).toDate());
         }
         return dateArrayList;
-
     }
         //计算当天医院开始挂号时间
     private DateTime getDateTime(DateTime dateTime ,String hm){
@@ -228,5 +231,45 @@ public class ScheduleServiceImpl implements ScheduleService {
         schedule.getParam().put("depname",department.getDepname());
         schedule.getParam().put("dayOfWeek",dayOfWeek);
         return schedule;
+    }
+
+    @Override
+    public ScheduleOrderVo getScheduleOrderVo(String scheduleId) {
+
+        Schedule schedule = this.getDetailById(scheduleId);
+        //预约日期
+        Date workDate = schedule.getWorkDate();
+        ScheduleOrderVo scheduleOrderVo = new ScheduleOrderVo();
+        BeanUtils.copyProperties(schedule,scheduleOrderVo);
+        scheduleOrderVo.setHosname((String) schedule.getParam().get("hosname"));
+        scheduleOrderVo.setDepname((String) schedule.getParam().get("depname"));
+        scheduleOrderVo.setReserveDate(workDate);
+        scheduleOrderVo.setReserveTime(schedule.getWorkTime());
+        //TODO 获取医院的预约规则放号开始和停止时间以及退号停止天数和退号时间
+        Hospital hospital = hospitalRepository.findByHoscode(schedule.getHoscode());
+        BookingRule bookingRule = hospital.getBookingRule();
+        Integer cycle = bookingRule.getCycle();
+        String releaseTime = bookingRule.getReleaseTime();
+        String stopTime = bookingRule.getStopTime();
+        Integer quitDay = bookingRule.getQuitDay();
+        String quitTime = bookingRule.getQuitTime();
+        //退号的完整时间
+        DateTime quitDateTime = this.getDateTime(new DateTime(workDate).plusDays(quitDay), quitTime);
+        scheduleOrderVo.setQuitTime(quitDateTime.toDate());
+        //当天的挂号开始时间
+        scheduleOrderVo.setStartTime(this.getDateTime(new DateTime(),releaseTime).toDate());
+        //当天的停止挂号时间
+        scheduleOrderVo.setStopTime(this.getDateTime(new DateTime(),stopTime).toDate());
+        //挂号结束时间 按照周期算从当天开始到最后一天的
+        scheduleOrderVo.setEndTime(this.getDateTime(new DateTime().plusDays(cycle-1),stopTime).toDate());
+        return scheduleOrderVo;
+    }
+
+    @Override
+    public void updateNumber(OrderMqVo orderMqVo) {
+        Schedule schedule = scheduleRepository.findById(orderMqVo.getScheduleId()).get();
+        schedule.setAvailableNumber(orderMqVo.getAvailableNumber());
+        schedule.setReservedNumber(orderMqVo.getReservedNumber());
+        scheduleRepository.save(schedule);
     }
 }

@@ -11,6 +11,7 @@ import com.atguigu.yygh.common.exception.YyghException;
 import com.atguigu.yygh.common.utils.ALiSmsUtil;
 import com.atguigu.yygh.sms.service.SmsService;
 import com.atguigu.yygh.sms.utils.HttpUtils;
+import com.atguigu.yygh.vo.sms.SmsVo;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
@@ -67,6 +68,14 @@ public class SmsServiceImpl implements SmsService {
         }
     }
 
+    @Override
+    public void sendMsg(SmsVo smsVo) {
+        String phone = smsVo.getPhone();
+        String templateCode = smsVo.getTemplateCode();
+        Map<String, Object> param = smsVo.getParam();
+        String jsonString = JSONObject.toJSONString(param);
+        log.info("手机号:{},短信内容:{},参数为:{}",phone,templateCode,param,jsonString);
+    }
 }
    /* @Override
     public boolean send(String phone, String code) {
